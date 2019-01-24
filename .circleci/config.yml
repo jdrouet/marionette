@@ -20,6 +20,14 @@ jobs:
       - checkout
       - run: make vendor
       - run: make build
+  
+  e2e:
+    docker:
+      - image: ubuntu:latest
+    working_directory: ~/marionette-test
+    steps:
+      - run: git clone git@github.com:jdrouet/marionette-test.git ~/marionette-test
+      - run: git checkout rebuild-client-only
 
 workflows:
   version: 2
@@ -27,3 +35,6 @@ workflows:
     jobs:
       - test
       - build
+      - e2e:
+          requires:
+            - build
