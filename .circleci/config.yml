@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: golang:1.11.5
+    working_directory: /go/src/github.com/jdrouet/marionette
+    steps:
+      - run: go get -u github.com/golang/dep/cmd/dep
+      - checkout
+      - run: make vendor
+      - run: make test
+
+  build:
+    docker:
+      - image: golang:1.11.5
+    working_directory: /go/src/github.com/jdrouet/marionette
+
+    steps:
+      - run: go get -u github.com/golang/dep/cmd/dep
+      - checkout
+      - run: make vendor
+      - run: make build
+
+workflows:
+  version: 2
+  normal:
+    jobs:
+      - test
+      - build
