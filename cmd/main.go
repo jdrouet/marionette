@@ -30,19 +30,19 @@ func main() {
 
 	err = repo.Init()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error while init...")
+		fmt.Fprintf(os.Stderr, "Error while init...\n")
 		os.Exit(2)
 	}
 
 	projects, err := repo.Digest(*contextPtr, *referencePtr)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Shit happened")
+		fmt.Fprintf(os.Stderr, "Error while running...\n")
 		os.Exit(3)
 	}
 
 	jsonOutput, err := json.Marshal(projects)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Problem converting to json")
+		fmt.Fprintf(os.Stderr, "Problem converting to json\n")
 		os.Exit(4)
 	}
 

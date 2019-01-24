@@ -1,15 +1,5 @@
 version: 2
 jobs:
-  test:
-    docker:
-      - image: golang:1.11.5
-    working_directory: /go/src/github.com/jdrouet/marionette
-    steps:
-      - run: go get -u github.com/golang/dep/cmd/dep
-      - checkout
-      - run: make vendor
-      - run: make test
-
   build:
     docker:
       - image: golang:1.11.5
@@ -19,22 +9,35 @@ jobs:
       - run: go get -u github.com/golang/dep/cmd/dep
       - checkout
       - run: make vendor
-      - run: make build
-  
-  e2e:
-    docker:
-      - image: ubuntu:latest
-    working_directory: ~/marionette-test
-    steps:
-      - run: git clone git@github.com:jdrouet/marionette-test.git ~/marionette-test
-      - run: git checkout rebuild-client-only
+      - run: make test
+      - run: make build-all
+      - store_artifacts:
+          path: /go/src/github.com/jdrouet/marionette/marionette-linux
+          destination: marionette-linux
+      - store_artifacts:
+          path: /go/src/github.com/jdrouet/marionette/marionette-darwin
+          destination: marionette-darwin
+      - store_artifacts:
+          path: /go/src/github.com/jdrouet/marionette/marionette.exe
+          destination: marionette-windows
+
+  # e2e:
+  #   docker:
+  #     - image: ubuntu:latest
+  #   steps:
+  #     - attach_workspace:
+  #         at: /root
+  #     - run: apt-get update && apt-get install -y git
+  #     - checkout
+  #     - run: git fetch --all
+  #     - run: git checkout e2e-change-module-a
+  #     - run: /root/marionette -reference e2e-master
 
 workflows:
   version: 2
   normal:
     jobs:
-      - test
       - build
-      - e2e:
-          requires:
-            - build
+      # - e2e:
+      #     requires:
+      #       - build

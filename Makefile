@@ -1,5 +1,10 @@
 build:
-	go build cmd/main.go
+	go build -o marionette cmd/main.go
+
+build-all:
+	GOOS=linux go build -o marionette-linux cmd/main.go
+	GOOS=darwin go build -o marionette-darwin cmd/main.go
+	GOOS=windows go build -o marionette.exe cmd/main.go
 
 run:
 	go run cmd/main.go
