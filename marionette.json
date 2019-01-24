@@ -1,0 +1,37 @@
+{
+  "projects": [
+    {
+      "name": "client",
+      "path": "client",
+      "dependencies": [
+        "module-a",
+        "module-b"
+      ]
+    },
+    {
+      "name": "server",
+      "path": "server",
+      "dependencies": [
+        "module-a"
+      ]
+    },
+    {
+      "name": "module-a",
+      "path": "common/module-a",
+      "dependencies": [
+        "module-c"
+      ]
+    },
+    {
+      "name": "module-b",
+      "path": "common/module-b",
+      "dependencies": [
+        "module-c"
+      ]
+    },
+    {
+      "name": "module-c",
+      "path": "common/module-c"
+    }
+  ]
+}
