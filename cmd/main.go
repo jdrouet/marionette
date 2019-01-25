@@ -24,7 +24,7 @@ func main() {
 	repo, err := parser.Parse(*configFilePtr)
 
 	if os.IsNotExist(err) {
-		fmt.Fprintf(os.Stderr, "The configuration file \"%s\" cannot be found\n", *configFilePtr)
+		fmt.Fprintf(os.Stderr, "The configuration file %q cannot be found\n", *configFilePtr)
 		os.Exit(1)
 	}
 
