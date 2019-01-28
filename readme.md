@@ -61,6 +61,10 @@ First you have to define a project file `marionette.json` in your repo.
       "dependencies": [
         "tool-b",
         "tool-c"
+      ],
+      "exclude": [
+        "*.md",
+        "*.txt"
       ]
     },
     {
