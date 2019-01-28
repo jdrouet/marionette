@@ -17,6 +17,14 @@
       "dependencies": [
         "model"
       ]
+    },
+    {
+      "name": "main",
+      "path": "cmd/main.go",
+      "dependencies": [
+        "model",
+        "parser"
+      ]
     }
   ]
 }
