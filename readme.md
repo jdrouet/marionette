@@ -86,6 +86,28 @@ marionette # -context $(pwd) -reference master -config marionette.json
 
 And it will give you an ordered list of project you have to rebuild
 
+In the current repo, if you do a change on main.go and that your run the previous command. It should return
+```bash
+$ marionette -config sample/simple.json
+[
+  {
+    "name": "main",
+    "path": "cmd/main.go",
+    "dependencies": [
+      "model",
+      "parser"
+    ]
+  }
+]
+```
+
+Now, if you just want to check if one of the project needs to be rebuilt.
+```bash
+$ marionette -config sample/simple.json -check main
+true
+```
+
 ## TODO
 
 - Add filters on projects not to rebuild a project when you modify the readme
+
