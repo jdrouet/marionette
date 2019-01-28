@@ -1,0 +1,29 @@
+{
+  "projects": [
+    {
+      "name": "git",
+      "path": "cmd/git"
+    },
+    {
+      "name": "model",
+      "path": "cmd/model",
+      "dependencies": [
+        "git"
+      ]
+    },
+    {
+      "name": "parser",
+      "path": "cmd/parser",
+      "dependencies": [
+        "model"
+      ]
+    },
+    {
+      "name": "sample",
+      "path": "sample",
+      "exclude": [
+        "*.txt"
+      ]
+    }
+  ]
+}

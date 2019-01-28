@@ -1,6 +1,7 @@
 package model
 
 import (
+	glob "github.com/gobwas/glob"
 	git "github.com/jdrouet/marionette/cmd/git"
 )
 
@@ -8,12 +9,35 @@ type Project struct {
 	Name         string   `json:"name"`
 	Path         string   `json:"path"`
 	Dependencies []string `json:"dependencies,omitempty"`
+	Exclude      []string `json:"exclude,omitempty"`
 	//
 	repository *Repository
 }
 
 func (p *Project) getChangedFiles(context string, reference string) ([]string, error) {
 	return git.Diff(context, reference, p.Path)
+}
+
+func (p *Project) filterExcluded(files []string) ([]string, error) {
+	globs := []glob.Glob{}
+	for _, pattern := range p.Exclude {
+		g, err := glob.Compile(pattern)
+		if err != nil {
+			return nil, err
+		}
+		globs = append(globs, g)
+	}
+	result := []string{}
+	for _, file := range files {
+		exclude := false
+		for _, gl := range globs {
+			exclude = exclude || gl.Match(file)
+		}
+		if !exclude {
+			result = append(result, file)
+		}
+	}
+	return result, nil
 }
 
 // Get changed files of a project
@@ -23,8 +47,7 @@ func (p *Project) Diff(context string, reference string) ([]string, error) {
 		return nil, err
 	}
 	changed = Omit(changed, "")
-	// TODO filter changed files
-	return changed, nil
+	return p.filterExcluded(changed)
 }
 
 func (p *Project) HasChanged(context string, reference string) (bool, error) {
